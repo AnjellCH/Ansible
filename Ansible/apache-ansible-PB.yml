@@ -2,8 +2,8 @@
   hosts: amazon-clients
 
   tasks:
-    -name: update all packages #yum update -y
-     ansible.builtin.yum:
+    - name: update all packages
+      ansible.builtin.yum:
        name: '*'
        state: latest
     - name: Install Apache
