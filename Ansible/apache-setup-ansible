@@ -1,0 +1,34 @@
+---
+- name: Setting up Apache web server
+  hosts: Amazon-Clients
+  become: yes  # Use "become" to execute tasks with superuser privileges
+
+  tasks:
+    - name: Update all packages
+      yum:
+        name: '*'
+        state: latest
+
+    - name: Install Apache
+      yum:
+        name: httpd
+        state: present
+
+    - name: Start the httpd service if not started
+      service:
+        name: httpd
+        state: started
+        enabled: yes  # Ensure the service starts on boot
+
+    - name: Copy index.html file from the controller to the target hosts
+      copy:
+        src: /home/ubuntu/index.html
+        dest: /var/www/html
+      notify:
+        - Restart Apache  # Use a handler to restart Apache when the file is copied
+
+  handlers:
+    - name: Restart Apache
+      service:
+        name: httpd
+        state: restarted

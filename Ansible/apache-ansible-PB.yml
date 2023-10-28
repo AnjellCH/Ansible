@@ -1,11 +1,11 @@
 - name: setting up apache webserver
-  hosts: amazon-clients
+  hosts: Amazon-Clients
 
   tasks:
     - name: update all packages
       ansible.builtin.yum:
-       name: '*'
-       state: latest
+        name: '*'
+        state: latest
     - name: Install Apache
       ansible.builtin.yum:
         name: httpd
